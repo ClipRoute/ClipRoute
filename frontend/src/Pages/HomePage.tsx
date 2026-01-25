@@ -3,6 +3,7 @@ import Header from '../components/common/Header';
 import DestinationModal from '../components/TravelDateSelector/DestinationModal';
 import mappinicon from "../assets/icons/mappin-icon.svg";
 import calendaricon from "../assets/icons/calendar-icon.svg";
+import bellicon from "../assets/icons/bell-icon.svg";
 
 interface Destination {
   id: string;
@@ -19,11 +20,11 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header 
-        title="" 
-        showNotification={true}
-        onNotificationClick={() => console.log('알림 클릭')}
+    <div>
+      <Header  // 나중에 로고 이미지로 변경 
+        left={<span className='px-[10px] py-2 text-xl font-semibold text-[#42BCEB]'>Cliproute</span>}
+        right={<img src={bellicon} className='w-[24px] h-[24px]'/>}
+        
       />
       
       <main className="max-w-md mx-auto p-4">
