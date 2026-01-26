@@ -1,100 +1,64 @@
 import { useState } from 'react';
 import Header from '../components/common/Header';
+import { CourseInputCard } from '../components/CourseInputCard';
 import DestinationModal from '../components/TravelDateSelector/DestinationModal';
-import mappinicon from "../assets/icons/mappin-icon.svg";
-import calendaricon from "../assets/icons/calendar-icon.svg";
 import bellicon from "../assets/icons/bell-icon.svg";
 
+
 interface Destination {
-  id: string;
-  name: string;
+  regionId: number;
+  regionName: string;
   imageUrl: string;
 }
 
-const Home = () => {
+const HomePage = () => {
   const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const [selectedDays, setSelectedDays] = useState<number | null>(null);
 
-  const handleDestinationSelect = (destination: Destination) => {
-    setSelectedDestination(destination);
-  };
-
+ 
   return (
-    <div>
-      <Header  // 나중에 로고 이미지로 변경 
+    <div className="bg-white min-h-screen">
+      <Header
         left={<span className='px-[10px] py-2 text-xl font-semibold text-[#42BCEB]'>Cliproute</span>}
-        right={<img src={bellicon} className='w-[24px] h-[24px]'/>}
-        
+        right={<img src={bellicon} alt="notifications" className='w-[24px] h-[24px]'/>}
       />
-      
-      <main className="max-w-md mx-auto p-4">
-        <h2 className="text-[16px] font-bold mb-4">
+
+      <main className='px-[20px] pt-6'>
+        <h1 className='text-[20px] font-bold pb-[15px]'>
           대표 여행 유튜버들의 국내 여행 코스를 한 눈에!
-        </h2>
-        
-        {/* 여행지/날짜 선택 박스 */}
-        <div className="bg-white rounded-lg border-[1px] border-[#42BCEB] p-4 mb-6">
-          
-          {/* 여행지 선택 버튼 */}
-          <button 
-            onClick={() => setIsDestinationModalOpen(true)}
-            className="flex items-center gap-4 mb-3 w-full text-left"
-          >
-            <img src={mappinicon} alt="mappinicon"/>
-            <span className={selectedDestination ? 'font-medium text-gray-900' : 'text-gray-500'}>
-              {selectedDestination ? selectedDestination.name : '여행지를 선택해 주세요'}
-            </span>
-          </button>
+        </h1>
 
-          <div className="mx-4 border-t border-[#D2D2D2]" />
+        <CourseInputCard 
+          region={selectedDestination} 
+          travelDays={selectedDays}
+          onLocationClick={() => setIsDestinationModalOpen(true)}
+          onDateClick={() => setSelectedDays(3)} 
+        />
 
-          {/* 날짜 선택 버튼 */}
+        <div className="flex justify-end mt-4">
           <button 
-            className="flex items-center gap-4 py-2 w-full text-left text-gray-500"
-          >
-            <img src={calendaricon} alt="calendaricon"/>
-            <span>여행 날짜를 선택해 주세요</span>
+          className="px-5 py-3 rounded-xl font-bold bg-[#42BCEB] text-white active:opacity-80 transition-all"
+          onClick={() => {
+            console.log("코스 생성 버튼 클릭됨");
+          }}>
+            코스 생성하기
           </button>
         </div>
 
-        
-        <div className='flex justify-end mb-8'>
-           <button className="w-[150px] bg-[#42BCEB] text-[14px] text-white py-3 rounded-lg font-semibold">
-          코스 생성하기
-        </button>
-        </div>
-       
+        <DestinationModal 
+          isOpen={isDestinationModalOpen}
+          onClose={() => setIsDestinationModalOpen(false)}
+          onSelect={(dest) => setSelectedDestination(dest)} 
+        />
 
-        <section className="mt-8">
-          <h3 className="text-[20px] font-semibold mb-4">
-            대표 지역/인기 영상 속 코스
-          </h3>
-          <p className="text-[12px] text-gray-500">현재 가장 인기 있는 대표 지역은 제주, 부산입니다.</p>
-          
-          {/* 코스 카드가 들어갈 자리 */}
-          <div className="mt-4 space-y-4">
-            <div className="bg-white rounded-lg p-4 border border-gray-200">
-              <div className="bg-gray-200 h-40 rounded-lg mb-3"></div>
-              <div className="flex items-center gap-2">
-                <div>
-                  <p className="font-semibold">[채널명]</p>
-                  <p className="text-sm text-gray-600">영상 제목이 들어갑니다.</p>
-                  <p className="text-xs text-cyan-400">#여행지 #2박 3일</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="mt-12 pt-8 border-t border-gray-100">
+           <h2 className="font-bold text-[18px]">대표 지역 / 인기 영상 속 코스</h2>
+           <p className="text-[14px] text-gray-400 mt-1">현재 가장 인기 있는 대표 지역은 제주, 부산입니다.</p>
+        </div>
       </main>
-
-      {/* 여행지 선택 모달 */}
-      <DestinationModal
-        isOpen={isDestinationModalOpen}
-        onClose={() => setIsDestinationModalOpen(false)}
-        onSelect={handleDestinationSelect}
-      />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
