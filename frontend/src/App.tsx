@@ -1,8 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import './index.css'
 import MobileLayout from "./layouts/MobileLayout";
 import LoginPage from "./Pages/LoginPage"; // 아까 만든 로그인 페이지
 import HomePage from "./Pages/HomePage"; 
 import SignupPage from "./Pages/SignupPage";
+import CoursePage from "./Pages/CoursePage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignupPage /> 
       },
+      { path: "/course/:videoId", element: <CoursePage /> },
     ]
   }
 ]);
