@@ -1,10 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css'
 import MobileLayout from "./layouts/MobileLayout";
-import LoginPage from "./Pages/LoginPage"; // 아까 만든 로그인 페이지
+import LoginPage from "./Pages/LoginPage"; 
 import HomePage from "./Pages/HomePage"; 
 import SignupPage from "./Pages/SignupPage";
 import CoursePage from "./Pages/CoursePage";
+import LoadingPage from "./Pages/LoadingPage";
+import MyPage from "./Pages/MyPage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: <HomePage /> // LoginPage 내부에서 MobileLayout을 중복 사용하지 않도록 수정 필요
+        element: <HomePage /> 
       },
       {
         path: "/login",
@@ -27,7 +29,12 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignupPage /> 
       },
+      {
+        path: "/my",
+        element: <MyPage /> 
+      },
       { path: "/course/:videoId", element: <CoursePage /> },
+      { path: "/loading", element: <LoadingPage /> },
     ]
   }
 ]);

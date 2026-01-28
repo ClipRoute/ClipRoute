@@ -67,9 +67,9 @@ const HomePage = () => {
       />
 
       <main className='px-[20px] pt-6'>
-        <h1 className='text-m font-bold pb-[15px]'>
-          대표 여행 유튜버들의 국내 여행 코스를 한 눈에!
-        </h1>
+        <h1 className="font-sans font-[700] text-[1rem] pb-[15px]">
+  대표 여행 유튜버들의 국내 여행 코스를 한 눈에!
+</h1>
 
         <CourseInputCard 
           region={selectedDestination} 
