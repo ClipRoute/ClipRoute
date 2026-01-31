@@ -10,7 +10,9 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String secretKey = "your-very-secret-key-make-it-very-long-and-secure"; // 최소 32자 이상
+    @org.springframework.beans.factory.annotation.Value("${jwt.secret}")
+    private String secretKey;
+
     private Key key;
     private final long TOKEN_TIME = 60 * 60 * 1000L; // 1시간
 
@@ -25,10 +27,32 @@ public class JwtUtil {
         Date date = new Date();
 
         return Jwts.builder()
-                .setSubject(email) // 사용자 식별값
-                .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
-                .setIssuedAt(date) // 발급일
-                .signWith(key, SignatureAlgorithm.HS256) // 암호화 알고리즘
+                .setSubject(email)
+                .setExpiration(new Date(date.getTime() + TOKEN_TIME))
+                .setIssuedAt(date)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    // 1. 토큰 유효성 검증
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (SecurityException | MalformedJwtException e) {
+            System.out.println("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
+        } catch (ExpiredJwtException e) {
+            System.out.println("Expired JWT token, 만료된 JWT token 입니다.");
+        } catch (UnsupportedJwtException e) {
+            System.out.println("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
+        }
+        return false;
+    }
+
+    // 2. 토큰에서 사용자 정보(Email) 가져오기
+    public String getUserInfoFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 }
