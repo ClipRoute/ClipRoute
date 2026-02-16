@@ -48,7 +48,7 @@ public class MemberResDTO {
             LocalDateTime updatedAt
     ) {}
 
-    // [9,10 API]
+    // [9 API]
     @Builder
     public record MyCourseDetailDTO(
             Long courseId,
